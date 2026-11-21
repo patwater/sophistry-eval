@@ -5,7 +5,7 @@ The pipeline must (1) flag an equivocation only in the planted text, (2) give th
 clearly lower integrity, and (3) leave force roughly flat, since the prose style is similar.
 
 This test fails until the pipeline is implemented. That is intended. Tolerances are first guesses
-and are open question 5 in Specs/draft-initial-build.md. Model scores are noisy, so the night
+and are open question 5 in Specs/initial-build.md. Model scores are noisy, so the night
 shift should replace the single call with a repeat-and-average helper and report the variance.
 """
 

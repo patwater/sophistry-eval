@@ -8,7 +8,7 @@ This repo is set up for the night shift workflow described at jamon.dev/night-sh
 2. In the repo settings, allow GitHub Actions to create pull requests (Settings, Actions, General, Workflow permissions).
 3. Add the secret `ANTHROPIC_API_KEY` under Settings, Secrets and variables, Actions.
 4. Set the repository variable `NIGHT_SPEND_CAP_USD`. The suggested value is `10`. The runner refuses to run when it is unset. Optionally set `NIGHT_MAX_TASKS` (default 2).
-5. Finish `Specs/draft-initial-build.md` and rename it to `Specs/initial-build.md` to promote it. Nothing runs overnight until a spec is promoted. The open questions at the end of the draft are for him to settle.
+5. Promote a spec by renaming it from `draft-<name>.md` to `<name>.md`. Nothing runs overnight until a spec is promoted. `Specs/initial-build.md` was promoted on 2026-11-21, with proposed answers to its open questions that Patrick can revise.
 6. Trigger the first night by hand (Actions, night-shift, Run workflow) and read the triage report before trusting the schedule.
 7. Review and merge the setup pull request.
 

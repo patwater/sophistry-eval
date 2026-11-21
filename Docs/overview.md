@@ -6,7 +6,7 @@ sophistry-eval reads a piece of writing and reports how well it makes its case. 
 - **Conceptual integrity** is how well the terms, claims and inferences hold together.
 - **Difficulty of the case** is how hard the position is to defend, so holding an unpopular or demanding thesis earns more credit than defending something everyone already believes.
 
-Sophistry strength is force times integrity times difficulty, with difficulty acting as a multiplier that rewards holding a hard case rather than penalizing easy ones. Whether the combination should be a product or a minimum is an open question in `Specs/draft-initial-build.md`.
+Sophistry strength is force times integrity times difficulty, with difficulty acting as a multiplier that rewards holding a hard case rather than penalizing easy ones. Whether the combination should be a product or a minimum is an open question in `Specs/initial-build.md`.
 
 ## Why the word sophistry
 

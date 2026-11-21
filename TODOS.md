@@ -14,7 +14,7 @@ Unrelated issues the agent notices go here. Bugs marked `ready` are picked up fi
 
 ## NEEDS INPUT FROM PATRICK
 
-- Create the empty GitHub repo `patwater/sophistry-eval` and push this branch. The workspace GitHub token was invalid when the kit was built.
-- Add `ANTHROPIC_API_KEY` as a GitHub Actions secret, and set the repository variable `NIGHT_SPEND_CAP_USD` (suggested `10`). The runner refuses to run if the cap is unset.
-- Finish `Specs/draft-initial-build.md` and rename it to promote it. See its open questions.
+- Review the proposed answers to the open questions in `Specs/initial-build.md`. The spec is promoted, so the night loop will use them as written unless he edits them first.
+- Pick or swap the twelve Substack and Medium articles in `corpus/urls.csv`. They are a convenience sample from web searches and nobody has read them.
 - Trigger the first night by hand with `workflow_dispatch` and read the triage report before trusting the schedule.
+- Apply the proposal in `queue/proposals/2026-11-21-claude-md-spec-reference.md` (CLAUDE.md still describes the spec as a draft).
