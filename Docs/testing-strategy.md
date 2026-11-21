@@ -25,6 +25,42 @@ Run each essay several times and measure the spread of each score. Compare the s
 
 Only public domain text is committed, under `corpus/public_domain/`. Other essays are listed by URL in `corpus/urls.csv` and cached in `corpus/cache/`, which is gitignored. The fixtures under `tests/fixtures/` that were written for this project are original.
 
+## Recording and replaying model replies
+
+Wrap a live client in `RecordingClient(inner, path)` to record, and use `RecordedClient(path)` to replay offline.
+
+- **Keys and contents.** Replies are keyed by `prompt_key(system, prompt)`, a SHA-256 hash. The file holds only hashes and replies, never prompt text. It pins the model and call settings (today only `max_tokens`) and refuses to mix them in one file.
+- **Repeated prompts.** Each repeated prompt appends a reply. Replay returns the replies in recorded order, so the spread of repeated runs survives offline.
+- **Unusable replies.** A truncated, refused, otherwise incomplete or empty reply raises `UnusableReplyError` in `ClaudeClient`, so it is never recorded.
+- **Strict replay.** Replay never goes live. An unknown prompt, or more calls than were recorded, raises `RecordingMissingError`. Changing a pass's system prompt invalidates its recordings, which is intended. Re-record them.
+- **Where recordings live.** Replies can quote spans of the essay. Recordings of the original fixtures and of public domain text may be committed under `tests/fixtures/recordings/`. Recordings of any other essay go under the gitignored `corpus/cache/` and are never committed.
+- **No temperature setting.** The installed SDK's `messages.create` takes no temperature parameter, so run-to-run spread is whatever the API gives for that model.
+
+## Handling variance
+
+`tests/helpers/repeat.py` provides the repeat-and-average helper.
+
+- **Runs.** `measure_scores(fn, runs=DEFAULT_RUNS)` runs a scorer five times (open question 5) and returns a `Stat` per axis.
+- **Sophistry.** The sophistry `Stat` is the mean of each run's own product, not the product of the axis means.
+- **Reporting.** Paste `Stat.summary()` lines into the plan to report the variance.
+
+Gate a metamorphic effect with two checks together:
+
+1. A fixed minimum drop, such as `MIN_INTEGRITY_DROP = 0.15`, compared on the means.
+2. `clears_noise(clean, perturbed, k=2.0)`. It passes when the clean mean minus the perturbed mean exceeds `k` times the clean runs' sample stdev.
+
+`clears_noise` is a heuristic gate, not a significance test, and must never be the only check:
+
+- With five runs the sample stdev has roughly 35% relative error.
+- It compares a difference of means with the clean text's per-run stdev, not with a standard error.
+  - With five runs on each text and equal spreads, the standard error of the difference is about 0.63 times the clean stdev, so the rule is conservative.
+  - It stops being conservative once the perturbed stdev exceeds about twice the clean stdev.
+  - The conservatism also assumes the clean stdev is well estimated, which it often is not with five runs.
+- It ignores the perturbed text's spread, which is how the previous point can fail.
+- When the clean runs are identical, any positive drop clears it.
+
+A stricter rule, such as a floor on the stdev or a combined standard error, would change open question 5 and is Patrick's call.
+
 ## Test hygiene
 
 - The model client is a thin layer so tests can replay recorded responses and run offline.
