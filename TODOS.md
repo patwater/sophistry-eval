@@ -16,5 +16,5 @@ Unrelated issues the agent notices go here. Bugs marked `ready` are picked up fi
 
 - Review the proposed answers to the open questions in `Specs/initial-build.md`. The spec is promoted, so the night loop will use them as written unless he edits them first.
 - Pick or swap the twelve Substack and Medium articles in `corpus/urls.csv`. They are a convenience sample from web searches and nobody has read them.
-- Trigger the first night by hand with `workflow_dispatch` and read the triage report before trusting the schedule.
+- Trigger the first night by hand with `workflow_dispatch` and read the triage report. The workflow is manual-only now, so nothing runs on its own.
 - Apply the proposal in `queue/proposals/2026-11-21-claude-md-spec-reference.md` (CLAUDE.md still describes the spec as a draft).
