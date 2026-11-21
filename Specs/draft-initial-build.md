@@ -44,13 +44,15 @@ Public domain essays are committed. Other essays are stored as URLs and cached l
 
 The Burrow integration itself, any web service, and a polished user interface.
 
-## Open questions for Patrick
+## Open questions for Patrick, with proposed answers
 
-1. Which pass should the first night shift build? The suggestion from the conversation was term tracking, because it is the most tractable and the most revealing.
-2. Should the final score be a product or a minimum of force and integrity, and should difficulty multiply that result or enter separately?
-3. How should difficulty of the case be measured, and who sets the baseline for what counts as a common assumption?
-4. Which model or models should the first runs use, and is it acceptable to compare two for stability?
-5. What is the tolerance for the metamorphic test, meaning how far must integrity drop for a planted flaw to count as detected?
-6. Which 20 or so essays form the hand-rated set, and when can Patrick rate them?
-7. What annotation format should the output use so that Burrow can read it later?
-8. Should force be scored by a model alone, or should it include measurable features such as rhetorical device counts?
+Each answer below is a proposal written in a day session to make promotion a quick yes-or-no. Patrick decides. Edit or strike any of them, then rename this file to `initial-build.md`.
+
+1. **Which pass should the first night shift build?** Proposed: term tracking only. It is the most tractable pass and it directly serves the first acceptance test, the planted equivocation. The same night builds the supporting pieces that every later pass needs: the real Claude client behind `ModelClient`, a recorded-response client for offline tests, and the repeat-and-average helper. Claims, modal audit, presupposition load and the adversarial verifier wait for later specs.
+2. **Product or minimum, and where does difficulty enter?** Proposed: keep the product `force x integrity x difficulty`, exactly as `combine` and `Docs/rubrics.md` already have it, and always report the three axes beside the product so a different rule can be tried later without rerunning anything.
+3. **How is difficulty measured, and who sets the baseline for common assumptions?** Proposed: for v0.1 the model rates difficulty against an explicit anchor, namely what a general educated reader would accept without argument, and it must quote the span it treats as the contested assumption. Patrick's hand ratings (question 6) are the calibration check, and the anchor wording is revised if the ratings disagree.
+4. **Which models, and is comparing two acceptable?** Proposed: `claude-sonnet-5-5` as the primary model and `claude-haiku-5-5` as the cheap comparison for stability checks. The nightly spend cap bounds the cost.
+5. **What tolerance counts as detecting a planted flaw?** Proposed: keep the test's current first guesses (integrity drops by at least 0.15, force moves by at most 0.15), measured on the mean of five runs per text, and additionally require the integrity drop to exceed twice the standard deviation of the clean text's runs, so that the effect is larger than the noise.
+6. **Which essays form the hand-rated set, and when can Patrick rate them?** This one is genuinely Patrick's. A starting suggestion is the four public domain candidates named above plus about sixteen of his own picks. It does not block the first night, because Layer 2 comes after term tracking.
+7. **Which annotation format?** Proposed: a JSON list of objects with `kind`, `quote`, `start` and `end` character offsets into the original text, and `note`. Offsets keep annotations anchored for the Burrow reader, and the shape maps cleanly onto W3C Web Annotation later.
+8. **Is force scored by a model alone?** Proposed: yes for v0.1. Measurable features such as rhetorical device counts are logged as diagnostics next to the model's score and do not feed it, so Patrick can see later whether they agree.
