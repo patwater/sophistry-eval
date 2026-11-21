@@ -1,0 +1,19 @@
+.venv/
+__pycache__/
+*.pyc
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+.env
+.env.*
+PAUSE
+.night.lock
+
+# Full invocation output and logs stay out of git. Summaries and triage reports are kept.
+night/runs/*/*.json
+night/runs/*/*.log
+night/runs/*/*.txt
+
+# Essays that are not public domain are cached locally only.
+corpus/cache/*
+!corpus/cache/.gitkeep

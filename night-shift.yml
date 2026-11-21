@@ -1,0 +1,50 @@
+name: night-shift
+
+on:
+  schedule:
+    - cron: "0 9 * * *" # 09:00 UTC, which is 01:00 in Pacific standard time
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+concurrency:
+  group: night-shift
+  cancel-in-progress: false
+
+jobs:
+  night:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    env:
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      NIGHT_SPEND_CAP_USD: ${{ vars.NIGHT_SPEND_CAP_USD }}
+      NIGHT_MAX_TASKS: ${{ vars.NIGHT_MAX_TASKS || '2' }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install tools
+        run: |
+          npm install -g @anthropic-ai/claude-code
+          python3 -m pip install uv
+          uv sync
+      - name: Configure git
+        run: |
+          git config user.name "night-shift"
+          git config user.email "night-shift@users.noreply.github.com"
+      - name: Run the night shift
+        run: bash runner/night_shift.sh
+      - name: Upload logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: night-runs
+          path: night/runs/
+          if-no-files-found: ignore

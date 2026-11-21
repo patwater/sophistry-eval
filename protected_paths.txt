@@ -1,0 +1,16 @@
+# One pattern per line. A trailing slash means a whole directory. Other patterns match a file
+# exactly or as a glob. Lines starting with # are comments.
+CLAUDE.md
+AGENT_LOOP.md
+REVIEW_PERSONAS.md
+.claude/agents/
+checks/
+runner/
+.github/
+Makefile
+pyproject.toml
+queue/approvals/
+.env*
+*.pem
+*.key
+credentials*

@@ -1,0 +1,5 @@
+Efficiency programs are worth funding, but they should be judged by what they actually do. In this essay, efficiency means using less water to accomplish the same task, such as a toilet that flushes with fewer gallons. Efficiency in that sense is a property of a device. Total use is a different quantity, a property of a whole community, and it depends on how many devices there are and how often they are used.
+
+A utility that retrofits ten thousand toilets lowers the water used per flush. Whether the utility's total use falls depends on whether people flush more, build more, or put the saved water to new uses. History shows that a lower cost per unit often invites more units. So the claim I defend is narrow: efficiency programs reduce water per task, and they reduce total use only when paired with a cap or a price that keeps the number of tasks from growing.
+
+For that reason I recommend that the utility fund retrofits and publish total use alongside efficiency each year. If total use rises while efficiency improves, the utility will know that the retrofit alone was not enough.

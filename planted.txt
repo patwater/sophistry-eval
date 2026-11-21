@@ -1,0 +1,5 @@
+Efficiency programs are worth funding, but they should be judged by what they actually do. In this essay, efficiency means using less water to accomplish the same task, such as a toilet that flushes with fewer gallons.
+
+A utility that retrofits ten thousand toilets lowers the water used per flush. Because efficiency means using less water, the utility's total use must therefore fall by the same amount. So the claim I defend is simple: efficiency programs reduce total use, and no cap or price is needed to make that happen.
+
+For that reason I recommend that the utility fund retrofits and treat any rise in total use as a measurement error.
