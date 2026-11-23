@@ -8,6 +8,8 @@ Unrelated issues the agent notices go here. Bugs marked `ready` are picked up fi
 
 ## Backlog
 
+- `PAUSE` is in `.gitignore`, so the runner's pause mechanism cannot reach CI without `git add -f`. Decide whether to remove it from `.gitignore` or keep the force-add convention that `Docs/night-shift.md` now describes.
+
 - Replace the synthetic equivocation fixtures with controlled edits of a public domain essay once `corpus/public_domain/` has one.
 - Add a recorded-response model client for offline tests.
 - Add a repeat-and-average helper in `tests/helpers` for noisy scores.

@@ -12,6 +12,10 @@ This repo is set up for the night shift workflow described at jamon.dev/night-sh
 6. Trigger the first night by hand (Actions, night-shift, Run workflow) and read the triage report. The workflow has no schedule trigger and runs only when started by hand. To run nightly again, add the `schedule` block described in the comment at the top of `.github/workflows/night-shift.yml`.
 7. Review and merge the setup pull request.
 
+## Pausing and resuming
+
+A file named `PAUSE` in the repo root makes the runner exit before doing any work, whether the run was manual or scheduled. `.gitignore` lists `PAUSE`, so a plain `git add` skips it and a pause would never reach CI. Use `git add -f PAUSE` to pause, and `git rm PAUSE` to resume. The pause only takes effect once it is on `main`, because that is the branch the workflow checks out.
+
 ## How a night works
 
 `runner/night_shift.sh` does the following.

@@ -1,0 +1,3 @@
+The night shift is paused. runner/night_shift.sh exits immediately when this file exists.
+To resume, delete this file with: git rm PAUSE
+Paused 2026-11-23 at Patrick's request.
