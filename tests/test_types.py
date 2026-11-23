@@ -24,7 +24,14 @@ def test_out_of_range_inputs_are_rejected(bad: float) -> None:
 
 def test_scores_expose_sophistry_and_evaluation_holds_annotations() -> None:
     scores = Scores(force=0.5, integrity=0.5, difficulty=1.0)
-    note = Annotation(kind="equivocation", quote="efficiency", note="sense shifts")
+    note = Annotation(
+        kind="equivocation",
+        quote="efficiency",
+        start=0,
+        end=10,
+        note="sense shifts",
+        source="term_tracking",
+    )
     evaluation = Evaluation(scores=scores, annotations=(note,))
     assert evaluation.scores.sophistry == pytest.approx(0.25)
     assert evaluation.annotations[0].kind == "equivocation"
