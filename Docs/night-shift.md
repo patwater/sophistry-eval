@@ -45,7 +45,7 @@ Listed in `checks/protected_paths.txt`: `CLAUDE.md`, `AGENT_LOOP.md`, `REVIEW_PE
 
 - The automatic single re-run of a task after an environment failure. For now, re-run the workflow by hand.
 - The pipeline itself. `pipeline.score_text` raises `NotImplementedError`, and the first night shift builds it from the promoted spec.
-- Live-model tests with recorded responses, and the repeat-and-average helper for noisy scores.
+- Live-model tests. The recorded-response clients and the repeat-and-average helper exist (see `Docs/testing-strategy.md`), but no test calls a live model yet, and `pyproject.toml` has no `live` marker.
 
 ## Sources used for CLI and CI details
 
