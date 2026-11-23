@@ -43,3 +43,23 @@ New questions for Patrick:
 - how annotations should feed the integrity score;
 - the e2e docstring's claim that the pair's prose style is similar;
 - an inflected-versus-derived wording note.
+
+## Task 2: no eligible task — stopped without new work
+
+Step 0 passed. There is no `PAUSE` file. The only leftover in the working tree is the runner's ledger row for task 1 in `ledger/costs.csv`. `make check` gives 182 passed and only the expected `tests/test_e2e_metamorphic.py` failure.
+
+Step 1 found nothing to pick up:
+
+- **`TODOS.md`** has no `ready` bugs.
+- **`Specs/initial-build.md`** is the only promoted spec. The first-night scope in its proposed answer 1 has shipped: the Claude client, recorded-response clients and the repeat helper on 2026-11-21, and term tracking in task 1 tonight. Claims, modal audit, presupposition load and the adversarial verifier are explicitly left for later specs.
+- **Remaining spec work is blocked on Patrick.** The scoring step and the wiring of `score_text`, which would unblock the e2e test, need a decision on how term-tracking annotations feed the integrity score. That question is already under "NEEDS INPUT FROM PATRICK" in `TODOS.md`, and inventing a rule would mean writing spec decisions on his behalf.
+- **Backlog items** such as the input-hash cache are not marked `ready`, so the loop does not take them.
+
+Budget note: task 1 cost $4.75, and the cap left about $5.1 for this task. That is too little for a full two-persona plan-and-diff cycle anyway.
+
+To unblock the next night, Patrick can do either of these:
+
+- answer the annotation-to-integrity question;
+- mark a backlog item (for example the input-hash cache) as `ready`.
+
+No code, docs, tests or protected paths were changed. No model calls were made.
