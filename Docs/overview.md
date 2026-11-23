@@ -29,10 +29,19 @@ A margin-annotated version of the text and four scores: force, integrity, diffic
 ## Design principles
 
 - Passes are separable and testable on their own.
-- Model calls go through one thin client layer, so tests can use recorded responses and cost can be counted.
+- Model calls go through one thin client layer, so tests can use recorded responses and cost can be counted. Recorded replies are keyed by a hash of the system prompt and prompt (`client.prompt_key`), and the recording file pins the model and call settings. A recording is a strict test fixture, not a cache.
 - Results are cached by input hash so passes are cheap to re-run.
 - Scores from a model are noisy, so every test that depends on them states how it handles variance.
 
 ## Status
 
-v0.1 is a harness and test strategy first. See `Docs/testing-strategy.md`. Only `types.combine` is implemented so far, and `pipeline.score_text` raises `NotImplementedError`.
+v0.1 is a harness and test strategy first. See `Docs/testing-strategy.md`.
+
+Built so far:
+
+- `types.combine`.
+- The client layer in `sophistry_eval.client`:
+  - `ClaudeClient` defaults to `claude-sonnet-5-5`, with `claude-haiku-5-5` as the comparison model. It counts tokens in `usage`. It raises on a missing key, and on a reply that is truncated, refused, otherwise incomplete, or empty (`UnusableReplyError`).
+  - `RecordingClient` and `RecordedClient` record replies and replay them offline.
+
+No pass exists yet, and `pipeline.score_text` raises `NotImplementedError`.
