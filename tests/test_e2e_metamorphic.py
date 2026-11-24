@@ -1,8 +1,12 @@
 """First end-to-end test with a known right answer, built from a controlled edit.
 
-`planted.txt` equivocates between efficiency per task and total use. `clean.txt` does not.
+In `planted.txt` the term "efficiency" shifts from less water per task to less water overall,
+and the conclusion depends on that shift. `clean.txt` keeps the one per-task sense throughout.
 The pipeline must (1) flag an equivocation only in the planted text, (2) give the planted text
-clearly lower integrity, and (3) leave force roughly flat, since the prose style is similar.
+clearly lower integrity, and (3) leave force roughly flat. The prose style is similar, and the
+force tolerance is a first guess that must also absorb differences in craft, such as the clean
+text's concession and scoped conclusion. The planted text has other flaws besides the
+equivocation (see the fixture README), so the integrity gap is a net difference.
 
 This test fails until the pipeline is implemented. That is intended. Tolerances are first guesses
 and are open question 5 in Specs/initial-build.md. Model scores are noisy, so the night

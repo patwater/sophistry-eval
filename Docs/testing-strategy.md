@@ -11,6 +11,8 @@ Take an essay and make a controlled edit whose effect on the scores is known in 
 - Change a "may" into a "must" with no new support. The modal audit must flag it, and integrity must drop.
 - Add rhetorical flourish to a weak essay without changing its reasoning. Force may rise, and integrity must not.
 
+Note on the first example. The v0.1 term-tracking pass can flag only shifts where the same word appears at both uses, so it cannot flag a swap to a near-synonym. Until a pass links a near-synonym to its term, metamorphic edits for term tracking must reuse the same word in a shifted sense. A near-synonym swap can still be expected to lower integrity, but not to produce a term-tracking annotation. `Specs/initial-build.md` says the pass must flag the near-synonym swap, so this conflict is raised with Patrick in `TODOS.md`.
+
 These need no human labels. They are the closest thing to a known right answer on real text, and they should be the backbone of the end-to-end tests.
 
 ## Layer 2: rank-order checks on a corpus
