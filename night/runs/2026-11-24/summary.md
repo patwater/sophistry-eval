@@ -42,3 +42,25 @@ New questions for Patrick:
 
 - The spec's near-synonym acceptance test conflicts with the pass's same-word limit.
 - Is the scoring step the next spec?
+
+## Task 2: no eligible task, so stopped without code changes
+
+Step 0 passed. There was no `PAUSE` file. The leftover ledger row for task 1 was committed as `Record 2026-11-24 task 1 spend in the cost ledger`. `make check` reported 188 passed, with the only failure the expected `tests/test_e2e_metamorphic.py` one.
+
+Step 1 found nothing to pick up:
+
+- **`TODOS.md`** has no bugs marked `ready`.
+- **`Specs/`** has one promoted spec, `initial-build.md`. Proposed answer 1 limits the first build to these pieces, and all of them are on the branch:
+  - the term-tracking pass, shipped as task 1 tonight;
+  - `ClaudeClient`, `RecordingClient` and `RecordedClient` in `src/sophistry_eval/client.py`;
+  - the repeat-and-average helper in `tests/helpers/repeat.py`.
+- **What's left in the spec** is wiring `score_text` and the end-to-end test. That needs a scoring step for force, integrity and difficulty, and no spec defines one yet. The remaining passes (claims, modal audit, presupposition load and the adversarial verifier) are explicitly left for later specs.
+
+Agents do not write specs for Patrick, and the loop does not pick up backlog items unless they are marked `ready`. So no work was started, no plan was written, no reviews ran and no code changed.
+
+To give the next night work, Patrick can do either of these:
+
+- promote a spec for the scoring step;
+- mark one or more `TODOS.md` backlog items `ready`. Candidates that need no new spec: the input-hash result cache, and recording live `track_terms` replies on the two equivocation fixtures.
+
+Process note: this session's permission mode denied Bash after the first few commands. As a result, the summary and the `TODOS.md` note were written with file tools and are **not committed**. The runner or Patrick needs to commit them.
