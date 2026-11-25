@@ -14,7 +14,7 @@ The sophists taught the craft of speaking and arguing well. The long negative me
 
 ## Pipeline
 
-The pipeline is a sequence of independent passes. Each pass takes the text (and sometimes earlier annotations) and produces annotations.
+The pipeline is a sequence of independent passes. Each pass takes the text (and sometimes earlier annotations) and a `ModelClient`, and returns a typed report whose `annotations` use the shared format below. Passes live in `sophistry_eval.passes`, and shared helpers (`PassOutputError`, `parse_json_object`, `anchor_quote`) are in `passes/common.py`. Each pass takes its system prompt as a parameter with a default, so prompt variants can be tried without editing code.
 
 1. Claim extraction builds a graph of claims, premises and links, with each link tagged as deductive, inductive, analogical or merely rhetorical.
 2. Term tracking follows each key term across the piece and flags equivocation.
@@ -25,6 +25,26 @@ The pipeline is a sequence of independent passes. Each pass takes the text (and 
 ## Output
 
 A margin-annotated version of the text and four scores: force, integrity, difficulty and sophistry strength. The annotation format is meant to be stable and readable by other tools, in particular the Burrow reader.
+
+### Annotation format (version 1)
+
+An `Annotation` (`sophistry_eval.types`) has these fields:
+
+- `kind`: the move, such as `equivocation`.
+- `quote`: the exact span the note points at.
+- `start`, `end`: offsets into the text, so `text[start:end] == quote`. They count Unicode code points (Python `str` indices) into the exact string the pass was given, with no newline or Unicode normalisation. A reader that counts UTF-16 units, as JavaScript does, must convert.
+- `note`: the explanation for a reader.
+- `source`: the pass that made the note, such as `term_tracking`. Two passes can report the same `kind`.
+
+`annotations_to_json(annotations, text=...)` writes:
+
+```json
+{"format": 1, "text_sha256": "<hex>", "annotations": [
+  {"kind": "...", "quote": "...", "start": 0, "end": 0, "note": "...", "source": "..."}
+]}
+```
+
+`text_sha256` is the SHA-256 of the UTF-8 text the offsets index into. `annotations_from_json(data, text=...)` refuses a hash mismatch, so offsets never land in the wrong text. Any change to these keys is a new format version.
 
 ## Design principles
 
@@ -44,4 +64,7 @@ Built so far:
   - `ClaudeClient` defaults to `claude-sonnet-5-5`, with `claude-haiku-5-5` as the comparison model. It counts tokens in `usage`. It raises on a missing key, and on a reply that is truncated, refused, otherwise incomplete, or empty (`UnusableReplyError`).
   - `RecordingClient` and `RecordedClient` record replies and replay them offline.
 
-No pass exists yet, and `pipeline.score_text` raises `NotImplementedError`.
+- The annotation format above, with JSON round-tripping.
+- The term-tracking pass, `passes.term_tracking.track_terms`. It returns a `TermReport` with the key terms, the equivocations (both uses anchored), and one annotation per equivocation, anchored at the shifted use. It is tested offline only. No live run has checked it against the fixtures yet.
+
+`pipeline.score_text` still raises `NotImplementedError`, because nothing yet turns annotations into the three scores.

@@ -2,6 +2,21 @@
 
 ## Unreleased
 
+- The open question 5 gate in the end-to-end test (night 2026-11-25, task 2):
+  - New `tests/helpers/metamorphic.py`:
+    - `RunSet` and `score_runs`, which keep every `Evaluation` across `DEFAULT_RUNS` runs.
+    - `planted_flaw_failures`, which checks for no false flag in any clean run, a flag on the planted term in every planted run, a minimum integrity drop, the 2σ noise gate and a force bound, and reports every failure with its variance.
+  - `tests/test_e2e_metamorphic.py` now uses the gate with five runs per text. It still fails with `NotImplementedError` until `score_text` exists.
+  - `summarize_scores` in `tests/helpers/repeat.py`. `measure_scores` now uses it.
+  - The term-tracking pass's whole-word matcher is now `passes.common.contains_whole_word`, shared with the gate.
+  - Docs: a "metamorphic gate" section and a note on bypassing the cache in `Docs/testing-strategy.md`, and the planted fixture's part-whole slide is described correctly in its README.
+
+- Term-tracking pass and annotation format (night 2026-11-25, task 1):
+  - `Annotation` now has `start` and `end` code-point offsets and a required `source`, and validates them. It is serialized as format 1 with `text_sha256`, through `annotations_to_json` and `annotations_from_json`.
+  - New `sophistry_eval.passes` package. `passes/common.py` holds `PassOutputError`, `parse_json_object` and `anchor_quote`. `passes/term_tracking.py` holds `track_terms`, which returns a `TermReport`.
+    - The pass validates strictly and raises rather than dropping items. Quotes must be unique, contain the term as a whole word, and not overlap, and the two senses must differ.
+  - Docs: the annotation format in `Docs/overview.md`, and term tracking versus a part-whole slide in `Docs/rubrics.md`. The fixture README and the e2e docstring now state the pair's confounds.
+
 - Model client layer (night 2026-11-21, task 1):
   - `ClaudeClient`, with Sonnet 5.5 as the default and Haiku 5.5 as the comparison model. It counts tokens and raises on a missing key, a truncated reply, a refusal or other incomplete stop, or an empty reply, so unusable replies never reach a recording.
   - `RecordingClient` and `RecordedClient` for strict offline replay. Recordings hold hashes only, never prompt text, and pin the model and `max_tokens`.
