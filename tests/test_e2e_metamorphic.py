@@ -1,8 +1,12 @@
 """First end-to-end test with a known right answer, built from a controlled edit.
 
 `planted.txt` equivocates between efficiency per task and total use. `clean.txt` does not.
-The pipeline must (1) flag an equivocation only in the planted text, (2) give the planted text
-clearly lower integrity, and (3) leave force roughly flat, since the prose style is similar.
+The planted text also carries a part-whole slide, an unsupported "must", and a clause that
+shields the claim from evidence, and it drops an evidence sentence and a concession. See
+`fixtures/equivocation/README.md`. The pipeline must (1) flag an equivocation only in the
+planted text, (2) give the planted text clearly lower integrity, credited to the planted text as
+a whole and not to the equivocation alone, and (3) leave force roughly flat. Point 3 is a loose
+check, because the pair is confounded on force.
 
 This test fails until the pipeline is implemented. That is intended. Tolerances are first guesses
 and are open question 5 in Specs/initial-build.md. Model scores are noisy, so the night

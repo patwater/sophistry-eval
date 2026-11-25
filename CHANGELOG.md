@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- Term-tracking pass and annotation format (night 2026-11-25, task 1):
+  - `Annotation` now has `start` and `end` code-point offsets and a required `source`, and validates them. It is serialized as format 1 with `text_sha256`, through `annotations_to_json` and `annotations_from_json`.
+  - New `sophistry_eval.passes` package. `passes/common.py` holds `PassOutputError`, `parse_json_object` and `anchor_quote`. `passes/term_tracking.py` holds `track_terms`, which returns a `TermReport`.
+    - The pass validates strictly and raises rather than dropping items. Quotes must be unique, contain the term as a whole word, and not overlap, and the two senses must differ.
+  - Docs: the annotation format in `Docs/overview.md`, and term tracking versus a part-whole slide in `Docs/rubrics.md`. The fixture README and the e2e docstring now state the pair's confounds.
+
 - Model client layer (night 2026-11-21, task 1):
   - `ClaudeClient`, with Sonnet 5.5 as the default and Haiku 5.5 as the comparison model. It counts tokens and raises on a missing key, a truncated reply, a refusal or other incomplete stop, or an empty reply, so unusable replies never reach a recording.
   - `RecordingClient` and `RecordedClient` for strict offline replay. Recordings hold hashes only, never prompt text, and pin the model and `max_tokens`.

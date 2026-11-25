@@ -12,6 +12,10 @@ Unrelated issues the agent notices go here. Bugs marked `ready` are picked up fi
 - Build the input-hash result cache from `Docs/overview.md`. Its key must come from `client.prompt_key` plus the model and call settings, so it cannot drift from the recording key. A recording is not a cache: it is strict and fails on a miss.
 - `RecordingClient` re-reads the file before every write, which is safe for several recorders in one process but not for separate processes writing at the same moment. Add a file lock if parallel recording is ever needed.
 - Rewrite `tests/test_e2e_metamorphic.py` to use `measure_scores` with `DEFAULT_RUNS` and to gate with both `MIN_INTEGRITY_DROP` and `clears_noise`. This belongs with the term-tracking task.
+- Wire `track_terms` into `score_text`. That needs a scoring step for force, integrity and difficulty, which the spec has not yet described. When it is wired in, the e2e test's check that `clean.txt` has no `equivocation` annotation should decide whether to filter by `source`.
+- Make a purer equivocation fixture pair: one controlled term shift, with evidence, concessions and the claim's strength kept matched, so force and difficulty are not confounded. The current pair's limits are in `tests/fixtures/equivocation/README.md`.
+- Term tracking requires the term as a whole word in both quotes, so an equivocation carried only by a pronoun or a near-synonym cannot be reported. A later pass could link a near-synonym explicitly.
+- Run `track_terms` live on the equivocation fixtures with `RecordingClient` and `measure`, and commit the recordings under `tests/fixtures/recordings/`. Nothing has yet checked that the prompt finds the planted shift and leaves `clean.txt` alone.
 - Turn the token counts in `ClaudeClient.usage` into dollars for `ledger/costs.csv` once the first pass makes live calls.
 
 ## NEEDS INPUT FROM PATRICK

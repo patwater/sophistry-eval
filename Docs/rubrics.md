@@ -10,6 +10,16 @@ How strongly the prose moves a reader toward its conclusion. Rhetorical craft co
 
 How well the piece holds together as reasoning. Reduced by equivocation (a term shifting sense across uses), modal slips (claims of necessity resting on support for possibility only, or "can" turning into "should" without argument), heavy unstated presuppositions, non-sequiturs, and failures that the adversarial verifier cannot repair. Not reduced by plain style, brevity or disagreeable conclusions.
 
+### Term tracking
+
+The term-tracking pass lists the key terms and their senses, and flags an equivocation when one term is used in two different senses and an inference goes through only if the two are treated as one. It does not flag:
+
+- a distinction the author draws openly between two senses;
+- polysemy that carries no inference;
+- figures of speech on which no inference depends. Their craft is force. A figure later read literally to carry an inference is still checked.
+
+A part-whole slide is a shift in the scope of a property, for example from one device to a whole community. It is a different move and is not an equivocation unless the term's meaning also changes. Both uses must contain the term as a whole word, so an equivocation carried only by a pronoun or a near-synonym is out of reach of this pass for now.
+
 ## Difficulty of the case
 
 How hard the position is to defend. Raised by strong available objections, widespread prior skepticism, and dependence on overturning a common assumption. Not raised by obscurity, length or jargon. Difficulty multiplies the product of force and integrity, so a hard case argued with force and integrity scores higher than an easy one.
