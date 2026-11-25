@@ -1,4 +1,5 @@
-"""Helpers shared by every pass: parsing a model's JSON reply and anchoring quotes."""
+"""Helpers shared by every pass: parsing a model's JSON reply, anchoring quotes, and matching
+a term as a whole word."""
 
 import json
 import re
@@ -53,3 +54,14 @@ def anchor_quote(text: str, quote: str) -> tuple[int, int]:
         msg = f"quote occurs more than once in the text: {quote!r}"
         raise PassOutputError(msg)
     return start, start + len(quote)
+
+
+def contains_whole_word(text: str, word: str) -> bool:
+    """True when `word` occurs in `text` as a whole word, ignoring case.
+
+    A whole word is not preceded or followed by a word character, so "efficiency" is found in
+    "the efficiency." but not in "inefficiency". The term-tracking pass and the end-to-end gate
+    both use this, so the two cannot disagree about what counts as the term.
+    """
+    pattern = rf"(?<!\w){re.escape(word)}(?!\w)"
+    return re.search(pattern, text, flags=re.IGNORECASE) is not None

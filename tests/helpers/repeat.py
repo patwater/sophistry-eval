@@ -5,7 +5,7 @@ gate a metamorphic effect with both a fixed minimum drop and `clears_noise`.
 """
 
 import statistics
-from collections.abc import Callable
+from collections.abc import Callable, Sequence
 from dataclasses import dataclass
 
 from sophistry_eval.types import Scores
@@ -72,7 +72,15 @@ def measure_scores(fn: Callable[[], Scores], runs: int = DEFAULT_RUNS) -> ScoreS
     if runs < 2:
         msg = f"need at least 2 runs to estimate spread, got {runs}"
         raise ValueError(msg)
-    results = [fn() for _ in range(runs)]
+    return summarize_scores([fn() for _ in range(runs)])
+
+
+def summarize_scores(results: Sequence[Scores]) -> ScoreStats:
+    """Summarize scores that were already collected, one `Scores` per run.
+
+    Same rules as `measure_scores`: sophistry is the mean of the per-run products. Fewer than
+    two results raise `ValueError`.
+    """
     return ScoreStats(
         force=Stat(values=tuple(s.force for s in results)),
         integrity=Stat(values=tuple(s.integrity for s in results)),

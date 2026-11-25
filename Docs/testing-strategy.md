@@ -61,9 +61,25 @@ Gate a metamorphic effect with two checks together:
 
 A stricter rule, such as a floor on the stdev or a combined standard error, would change open question 5 and is Patrick's call.
 
+Repeated runs must bypass any result cache. If a cache answers the repeats, every run is identical, the clean stdev is 0, and `clears_noise` passes any drop. The fixed minimum is then the only real gate. A replayed recording must hold one reply per run.
+
+## The metamorphic gate
+
+`tests/helpers/metamorphic.py` combines the checks for a clean and planted pair. `score_runs(fn)` scores a text `DEFAULT_RUNS` times and keeps every `Evaluation`. `planted_flaw_failures(clean, planted, *, kind, term, min_integrity_drop, max_force_change)` returns one message per failed check, and an empty list means it passes. The checks are:
+
+1. **No false flag.** No clean run carries an annotation of `kind`, wherever it points.
+2. **The flag is found.** Every planted run has an annotation of `kind` whose quote contains `term` as a whole word. This uses the same `contains_whole_word` as the term-tracking pass.
+3. **Minimum drop.** The drop in mean integrity is at least the minimum (inclusive).
+4. **Noise.** The drop clears `clears_noise` (strict).
+5. **Force.** The mean force moves by at most the maximum (inclusive).
+
+The messages carry the `Stat.summary()` lines, so a failure reports its variance.
+
+The tolerances are open question 5. The per-run flag rule, every planted run and no clean run, is a night-shift interpretation that awaits Patrick. Anchoring on the term is necessary for detection, not sufficient. A mislabel of another move whose quote also covers the term still counts.
+
 ## Test hygiene
 
 - The model client is a thin layer so tests can replay recorded responses and run offline.
 - Live-model tests are marked and run in the nightly job with a key.
 - Every score test states its tolerance and how it handles variance.
-- `tests/test_e2e_metamorphic.py` is the first end-to-end test. It fails until the pipeline exists. That is intended.
+- `tests/test_e2e_metamorphic.py` is the first end-to-end test. It scores each fixture five times and applies the metamorphic gate. One run makes 10 `score_text` calls. It fails until the pipeline exists. That is intended.

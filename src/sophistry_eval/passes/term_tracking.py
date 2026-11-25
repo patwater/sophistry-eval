@@ -7,12 +7,16 @@ The pass reads only its input text, so its result depends only on the text, the 
 the model and the call settings, and can be cached by input hash.
 """
 
-import re
 from dataclasses import dataclass
 from typing import Any
 
 from sophistry_eval.client import ModelClient
-from sophistry_eval.passes.common import PassOutputError, anchor_quote, parse_json_object
+from sophistry_eval.passes.common import (
+    PassOutputError,
+    anchor_quote,
+    contains_whole_word,
+    parse_json_object,
+)
 from sophistry_eval.types import Annotation
 
 SOURCE = "term_tracking"
@@ -156,11 +160,6 @@ def _parse_terms(raw: object) -> tuple[TrackedTerm, ...]:
     return tuple(terms)
 
 
-def _contains_word(quote: str, term: str) -> bool:
-    pattern = rf"(?<!\w){re.escape(term)}(?!\w)"
-    return re.search(pattern, quote, flags=re.IGNORECASE) is not None
-
-
 def _normalise(sense: str) -> str:
     return " ".join(sense.split()).casefold()
 
@@ -175,7 +174,7 @@ def _parse_equivocations(raw: object, text: str) -> tuple[Equivocation, ...]:
         first_start, first_end = anchor_quote(text, fields["first_quote"])
         shifted_start, shifted_end = anchor_quote(text, fields["shifted_quote"])
         for name in ("first_quote", "shifted_quote"):
-            if not _contains_word(fields[name], term):
+            if not contains_whole_word(fields[name], term):
                 msg = f"{where}: {name} does not contain the term {term!r} as a whole word"
                 raise PassOutputError(msg)
         if first_start < shifted_end and shifted_start < first_end:

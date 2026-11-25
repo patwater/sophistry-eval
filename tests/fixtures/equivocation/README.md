@@ -8,7 +8,7 @@
 
 The planted flaw is not pure, and the pair differs in more than one way:
 
-- **Integrity.** Alongside the term shift, `planted.txt` has a part-whole slide (from a device to the whole community), an unsupported "must ... by the same amount", and a final clause that shields the claim from evidence ("treat any rise in total use as a measurement error").
+- **Integrity.** Alongside the term shift, `planted.txt` has a part-whole slide, from the water used per flush to "the utility's total use", in the same sentence as the term shift, an unsupported "must ... by the same amount", and a final clause that shields the claim from evidence ("treat any rise in total use as a measurement error").
 - **Difficulty.** The planted text defends a stronger claim (no cap or price is needed).
 - **Force.** `planted.txt` drops the evidence sentence ("History shows...") and the scoped concession. `Docs/rubrics.md` counts both as force. The dropped evidence also bears on integrity.
 
