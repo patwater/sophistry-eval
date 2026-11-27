@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Paused the night shift by committing a `PAUSE` file (force-added, because `.gitignore` lists it), and documented how to pause and resume in `Docs/night-shift.md`.
+- Removed the nightly schedule from `.github/workflows/night-shift.yml`, so the night shift runs only when triggered by hand. Done in a day session at Patrick's request.
 - Model client layer (night 2026-11-21, task 1):
   - `ClaudeClient`, with Sonnet 5.5 as the default and Haiku 5.5 as the comparison model. It counts tokens and raises on a missing key, a truncated reply, a refusal or other incomplete stop, or an empty reply, so unusable replies never reach a recording.
   - `RecordingClient` and `RecordedClient` for strict offline replay. Recordings hold hashes only, never prompt text, and pin the model and `max_tokens`.

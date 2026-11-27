@@ -9,8 +9,12 @@ This repo is set up for the night shift workflow described at jamon.dev/night-sh
 3. Add the secret `ANTHROPIC_API_KEY` under Settings, Secrets and variables, Actions.
 4. Set the repository variable `NIGHT_SPEND_CAP_USD`. The suggested value is `10`. The runner refuses to run when it is unset. Optionally set `NIGHT_MAX_TASKS` (default 2).
 5. Promote a spec by renaming it from `draft-<name>.md` to `<name>.md`. Nothing runs overnight until a spec is promoted. `Specs/initial-build.md` was promoted on 2026-11-21, with proposed answers to its open questions that Patrick can revise.
-6. Trigger the first night by hand (Actions, night-shift, Run workflow) and read the triage report before trusting the schedule.
+6. Trigger the first night by hand (Actions, night-shift, Run workflow) and read the triage report. The workflow has no schedule trigger and runs only when started by hand. To run nightly again, add the `schedule` block described in the comment at the top of `.github/workflows/night-shift.yml`.
 7. Review and merge the setup pull request.
+
+## Pausing and resuming
+
+A file named `PAUSE` in the repo root makes the runner exit before doing any work, whether the run was manual or scheduled. `.gitignore` lists `PAUSE`, so a plain `git add` skips it and a pause would never reach CI. Use `git add -f PAUSE` to pause, and `git rm PAUSE` to resume. The pause only takes effect once it is on `main`, because that is the branch the workflow checks out.
 
 ## How a night works
 

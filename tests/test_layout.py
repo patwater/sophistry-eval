@@ -76,6 +76,7 @@ def test_no_stray_files_in_repo_root() -> None:
         "uv.lock",
         "LICENSE",
         ".gitignore",
+        ".git",  # a file, not a directory, inside a git worktree
         "PAUSE",
         ".night.lock",
     }
